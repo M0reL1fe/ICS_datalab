@@ -116,12 +116,13 @@ int byteSwap(int x, int n, int m) {
  *   Difficulty: 3
  */
 unsigned reverse(unsigned v) {
-    v = ((v >> 1) & 0x55555555) | ((v & 0x55555555) << 1);
-    v = ((v >> 2) & 0x33333333) | ((v & 0x33333333) << 2);
-    v = ((v >> 4) & 0x0F0F0F0F) | ((v & 0x0F0F0F0F) << 4);
-    v = ((v >> 8) & 0x00FF00FF) | ((v & 0x00FF00FF) << 8);
-    v = (v >> 16) | (v << 16);
-    return v;
+    unsigned result = 0;
+    unsigned i = 32;
+    while (i) {
+        result = (result << 1) | (v & 1);
+        i-=1;
+    }
+    return result;
 }
 
 /*
@@ -133,7 +134,8 @@ unsigned reverse(unsigned v) {
  *   Difficulty: 3
  */
 int logicalShift(int x, int n) {
-    return (x >> n) & ~(((1 << 31) >> n) << 1);
+    int i = ((1 << 31) >> n) << 1;
+    return (x >> n) & ~i;
 }
 
 /*
