@@ -120,6 +120,7 @@ unsigned reverse(unsigned v) {
     unsigned i = 32;
     while (i) {
         result = (result << 1) | (v & 1);
+        v = v >> 1;
         i-=1;
     }
     return result;
@@ -196,9 +197,9 @@ unsigned float_i2f(int x) {
         absx = absx << 1;
         shift = shift + 1;
     }
-    frac = (absx >> 8) & 0x7FFFFF;
+    frac = (absx >> 8) & 0x7FFFFF; //丢弃舍入部分的低8位
     round = absx & 0xFF;
-    exp = 158 - shift;
+    exp = 127 + 31 - shift;
     if (round > 0x80)
         frac = frac + 1;
     else if (round == 0x80)
