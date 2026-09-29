@@ -182,7 +182,7 @@ int leftBitCount(int x) {
  *   Max ops: 30
  *   Difficulty: 4
  */
-unsigned float_i2f(int x) {
+ unsigned float_i2f(int x) {
     unsigned sign = x & 0x80000000;
     unsigned absx = x;
     unsigned frac, round;
@@ -197,9 +197,11 @@ unsigned float_i2f(int x) {
         absx = absx << 1;
         shift = shift + 1;
     }
-    frac = (absx >> 8) & 0x7FFFFF; //丢弃舍入部分的低8位
+    E = 31 - shift;
+    frac = (absx >> 8) & 0x7FFFFF;
+
     round = absx & 0xFF;
-    exp = 127 + 31 - shift;
+    exp = 127 + E;
     if (round > 0x80)
         frac = frac + 1;
     else if (round == 0x80)
